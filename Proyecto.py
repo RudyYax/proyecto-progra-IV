@@ -30,7 +30,10 @@ class Datos_Categoria:
                 case 5:
                     self.Buscar_Categoria()
                 case 6:
-                    print("Salir")
+                    print("Salir...")
+                    print("REGRESANDO AL MENÚ PRINCIPAL....")
+                    break
+
 
     def Agregar_Categoria(self):
         print("\n Registrar Categoria")
@@ -134,6 +137,25 @@ class Producto:
         self.total_ventas = total_ventas
         self.stock = stock
 
+    def sub_menu(self):
+        while True:
+            print("\n Productos ")
+            print("Bienvenido")
+            print("1.- Registrar Nuevo Producto.")
+            print("2.- Actualizar Producto.")
+            print("3.- Eliminar Productos.")
+            print("4.- Mostrar Productos.")
+            print("5.- Buscar Productos.")
+            print("6.- Salir.")
+            opcion = int(input("Seleccione que opcion desea:"))
+            match opcion:
+                case 1:
+                    print("Registrar")
+
+    def Agregar_Producto(self):
+        print("\n Agregar Producto")
+
+
 class Menu:
     def __init__(self):
                 print("\n ---Bienvenidos a nuestra tienda ----")
@@ -143,6 +165,7 @@ class Menu:
                 print("4.- Agregar Proveedor")
                 print("5.- Agregar Empleado")
                 print("6.- salir")
+
 
 datos_categoria = Datos_Categoria()
 
@@ -155,7 +178,13 @@ while True:
         continue
 
     if opcion == 1:
-        datos_categoria.sub_menu()
+        try:
+            datos_categoria.sub_menu()
+        except ValueError:
+            validar = input(f"\n Opcion no valida presione ENTER para intentar de nuevo o 6 para Salir del programa")
+            if validar == "6":
+                break
+
     elif opcion == 6:
         print("Saliendo...")
         break
