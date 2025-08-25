@@ -21,7 +21,7 @@ class Datos_Categoria:
                 case 1:
                     self.Agregar_Categoria()
                 case 2:
-                    print("Actualiar")
+                    self.Actualizar_Categoria()
                 case 3:
                     print("Eliminar")
                 case 4:
@@ -49,20 +49,22 @@ class Datos_Categoria:
                     break
             except ValueError:
                 print("No se puedo agregar un producto")
+
     def Actualizar_Categoria(self):
-
-        codigo_Actualizar = input("Ingrese el código de la categoria que desea actualizar: ")
-        try:
-            print(f"C")
-            nueva_Categoria = int(input("Ingrese el nue: "))
-            gestion.actualizar_stock(codigo, cantidad)
-        except ValueError:
-            print("La cantidad debe ser un número entero.")
-        actualizar = int(input("Si desea actualizar el precio presione ENTER de lo contrario presione 0: "))
-        if actualizar == 0:
-            break
-        elif actualizar == "":
-
+        print("\n Actualizar Categoria")
+        while True:
+            id_Categoria = input("Ingrese el ID de la categoria que desea modificar")
+            if id_Categoria not in self.categorias:
+                print("Categoria no encontrada")
+                reintentar = input("Presione ENTER para intentar de nuevo o 0 para regresar al menú de Categorias")
+                if reintentar == "0":
+                    break
+            nombre_nuevo = input("Ingrese el nuevo nombre de la categoria").lower()
+            self.categorias[id_Categoria].nombre = nombre_nuevo
+            print("Producto actualizado correctamente.")
+            intento = input("Presione ENTER para actualizar otro producto o 0 para regresar al menú de Categorias ")
+            if intento == "0":
+                break
 
 
 
