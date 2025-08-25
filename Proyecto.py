@@ -23,9 +23,9 @@ class Datos_Categoria:
                 case 2:
                     self.Actualizar_Categoria()
                 case 3:
-                    print("Eliminar")
+                    self.Eliminar_Categoria()
                 case 4:
-                    print("Mostrar")
+                    self.Mostrar_Categorias()
                 case 5:
                     print("Salir")
 
@@ -66,9 +66,40 @@ class Datos_Categoria:
             if intento == "0":
                 break
 
+    def Eliminar_Categoria(self):
+        print("\n Eliminar Categoria")
+        while True:
+            id_Categoria = input("Ingrese el ID de la categoria que desea eliminar")
+            if id_Categoria in self.categorias:
+                eliminado = self.categorias.pop(id_Categoria)
+                print(f"El producto  ha sido eliminado correctamente.")
+                reintentar = input("Presione ENTER para intentar de nuevo o 0 para regresar al menú de Categorias")
+                if reintentar == "0":
+                    break
+            else:
+                intentar = input("Categoria no encontrada presione ENTER para intentar de nuevo o 0 para regresar al menú de categorias")
+                if intentar == "0":
+                    break
 
+    def quick_sort(self, lista):
+        if len(lista) <= 1:
+            return lista
+        else:
+            pivote = lista[0].nombre.lower()
+            mayores = [x for x in lista[1:] if x.nombre.lower() > pivote]
+            iguales = [x for x in lista[1:] if x.nombre.lower() == pivote]
+            menores = [x for x in lista[1:] if x.nombre.lower() < pivote]
+            return self.quick_sort(menores) + [lista[0]] + iguales + self.quick_sort(mayores)
 
-
+    def Mostrar_Categorias(self):
+        if not self.categorias:
+            print(f"No hay productos en esta categoria")
+            return
+        lista_Categorias = list(self.categorias.values())
+        ordenados = self.quick_sort(lista_Categorias)
+        print("Productos ordenados por nombre: ")
+        for i, categoria in enumerate(ordenados, start=1):
+            print(f"{i}- ID: {categoria.id_categoria} / nombre {categoria.nombre}")
 
 
 
