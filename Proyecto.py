@@ -128,14 +128,17 @@ class Datos_Categoria:
 
 
 class Producto:
-    def __init__(self, id_producto, nombre, precio, id_categoria, total_compras, total_ventas, stock):
+    def __init__(self, id_producto, nombre, precio, id_categoria, stock):
         self.id_producto = id_producto
         self.nombre = nombre
         self.precio = precio
         self.id_categoria = id_categoria
-        self.total_compras = total_compras
-        self.total_ventas = total_ventas
         self.stock = stock
+
+class Datos_Productos:
+    def __init__(self):
+        self.productos = {}
+
 
     def sub_menu(self):
         while True:
@@ -150,10 +153,86 @@ class Producto:
             opcion = int(input("Seleccione que opcion desea:"))
             match opcion:
                 case 1:
-                    print("Registrar")
+                    self.Agregar_Producto()
+                case 2:
+                    print("Actualizar")
+                    self.Actualizar_Producto()
+                case 4:
+                    self.Mostrar_Productos()
 
     def Agregar_Producto(self):
         print("\n Agregar Producto")
+        idp = input("IDProducto: ")
+        nombre = input("Nombre producto: ")
+        precio = float(input("Precio: Q"))
+        idc = input("IDCategoria del producto: ")
+
+        if idc not in datos_categoria.categorias:
+            print("Error: La categoría no existe. Agrega primero la categoría.")
+        else:
+            stock = int(input("Stock inicial: "))
+            self.productos[idp] = Producto(idp, nombre, precio, idc, stock=stock)
+            print("Producto agregado.")
+
+
+    def Actualizar_Producto(self):
+        print("\n Actualizar Producto")
+        while True:
+            id_Producto = input("Ingrese el ID de la categoria que desea modificar")
+            if id_Producto not in self.productos:
+                print("Producto no encontrada")
+                reintentar = input("Presione ENTER para intentar de nuevo o 0 para regresar al menú de Productos")
+                if reintentar == "0":
+                    break
+            print("1.- Cambiar Id del Producto")
+            print("2.- Cambiar nombre del producto")
+            print("3.- Salir")
+            actualizar = int(input("Ingrese la opcion que desea."))
+            if actualizar == 1:
+                nuevo_id = input("Ingrese el nuevo ID: ")
+                if nuevo_id in self.productos:
+                    print("El ID ya existe en otro producto intente de nuevo")
+                    intento = input("Presione ENTER para intentar de nuevo o 0 para regresar al menú de Categorias ")
+                    if intento == "0":
+                        break
+                else:
+                     producto = self.productos.pop(id_Producto)
+                     producto.id_producto = nuevo_id
+                     self.productos[nuevo_id] = producto
+                     print("Id producto actualizado Correctamente.")
+                     intento = input("Presione ENTER para actualizar otro producto o 3 para regresar al menú de Productos ")
+                     if intento == "3":
+                        break
+            elif actualizar == 2:
+                nombre_nuevo = input("Ingrese el nuevo nombre del producto").lower()
+                self.productos[id_Producto].nombre = nombre_nuevo
+                print("Nombre del Producto actualizado correctamente.")
+                intento = input("Presione ENTER para actualizar otro producto o 3 para regresar al menú de Productos ")
+                if intento == "3":
+                    break
+            if actualizar == 3:
+                break
+
+    def quick_sort_Productos(self, lista):
+        if len(lista) <= 1:
+            return lista
+        else:
+            pivote = lista[0].nombre.lower()
+            mayores = [x for x in lista[1:] if x.nombre.lower() > pivote]
+            iguales = [x for x in lista[1:] if x.nombre.lower() == pivote]
+            menores = [x for x in lista[1:] if x.nombre.lower() < pivote]
+            return self.quick_sort_Productos(menores) + [lista[0]] + iguales + self.quick_sort_Productos(mayores)
+
+    def Mostrar_Productos(self):
+        if not self.productos:
+            print(f"No hay Productos Registrados")
+            return
+        lista_Productos = list(self.productos.values())
+        ordenados = self.quick_sort_Productos(lista_Productos)
+        print("Productos ordenados por nombre: ")
+        for i, producto in enumerate(ordenados, start=1):
+            print(f" ID: {producto.id_producto} / nombre: {producto.nombre}")
+
 
 
 class Menu:
@@ -176,17 +255,21 @@ while True:
     except ValueError:
         print("Opción inválida")
         continue
-
-    if opcion == 1:
-        try:
-            datos_categoria.sub_menu()
-        except ValueError:
-            validar = input(f"\n Opcion no valida presione ENTER para intentar de nuevo o 6 para Salir del programa")
-            if validar == "6":
+    match opcion:
+            case 1:
+                try:
+                    datos_categoria.sub_menu()
+                except ValueError:
+                    validar = input(f"\n Opcion no valida presione ENTER para intentar de nuevo o 6 para Salir del programa")
+                    if validar == "6":
+                        break
+            case 2:
+                try:
+                    Datos_Productos().sub_menu()
+                except ValueError:
+                    validar = input(f"\n Opcion no valida presione ENTER para intentar de nuevo o 6 para Salir del programa")
+                    if validar == "6":
+                        break
+            case 6:
+                print("Saliendo...")
                 break
-
-    elif opcion == 6:
-        print("Saliendo...")
-        break
-    else:
-        print("Opción no implementada todavía")
