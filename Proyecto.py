@@ -15,7 +15,8 @@ class Datos_Categoria:
             print("2.- Actualizar Categoria.")
             print("3.- Eliminar Categoria.")
             print("4.- Mostrar Categoria.")
-            print("5.- Salir Categoria.")
+            print("5.- Buscar Categoria.")
+            print("6.- Salir Categoria.")
             opcion = int(input("Seleccione que opcion desea:"))
             match opcion:
                 case 1:
@@ -27,6 +28,8 @@ class Datos_Categoria:
                 case 4:
                     self.Mostrar_Categorias()
                 case 5:
+                    self.Buscar_Categoria()
+                case 6:
                     print("Salir")
 
     def Agregar_Categoria(self):
@@ -93,13 +96,31 @@ class Datos_Categoria:
 
     def Mostrar_Categorias(self):
         if not self.categorias:
-            print(f"No hay productos en esta categoria")
+            print(f"No hay Categorias Registradas")
             return
         lista_Categorias = list(self.categorias.values())
         ordenados = self.quick_sort(lista_Categorias)
         print("Productos ordenados por nombre: ")
         for i, categoria in enumerate(ordenados, start=1):
             print(f"{i}- ID: {categoria.id_categoria} / nombre {categoria.nombre}")
+
+    def Buscar_Categoria(self):
+        while True:
+            id_buscar = input("Ingrese el codigo de la categoria que desea buscar")
+            if id_buscar not in self.categorias:
+                print("Categoria no encontrada")
+                reintentar = input("Presione ENTER para intentar de nuevo o 0 para regresar al menú de Categorias")
+                if reintentar == "0":
+                    break
+            categoria = self.categorias.get(id_buscar)
+            if categoria:
+                print(f"Categoria encontrada: ID: {categoria.id_categoria} / Nombre: {categoria.nombre}")
+                intento = input("\n Presione ENTER para agregar otra categoria o ingrese 0 para regresar al menú de categorias. ")
+                if intento == "0":
+                    break
+            else:
+                print("Categoria no encontrada.")
+
 
 
 
