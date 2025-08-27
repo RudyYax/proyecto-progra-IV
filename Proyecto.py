@@ -17,7 +17,7 @@ class Datos_Categoria:
             print("4.- Mostrar Categoria.")
             print("5.- Buscar Categoria.")
             print("6.- Salir Categoria.")
-            opcion = int(input("Seleccione que opcion desea:"))
+            opcion = int(input("Seleccione que opcion desea: "))
             match opcion:
                 case 1:
                     self.Agregar_Categoria()
@@ -39,51 +39,53 @@ class Datos_Categoria:
         print("\n Registrar Categoria")
         while True:
             try:
-                Id_Categoria = input("Ingrese el Id de la nueva categoria")
+                Id_Categoria = input("Ingrese el Id de la nueva categoria: ")
                 if Id_Categoria in self.categorias:
-                    print("La categoria ya existe")
+                    print("La categoria ya existe.")
                     error = print("Presione ENTER para intentar de nuevo o 0 para salir.")
                     if error == 0:
                         break
                     else:
                         continue
-                Nombre_Categoria = input("Ingrese el nombre de la categoria").lower()
+                Nombre_Categoria = input("Ingrese el nombre de la categoria: ").lower()
                 self.categorias[Id_Categoria] = Categoria(Id_Categoria, Nombre_Categoria)
-                print("Producto registrado correctamente.")
+                print("Categoría registrada correctamente.")
                 intento = input("Presione ENTER para agregar otra categoria o ingrese 0 para regresar al menú de categorias. ")
                 if intento == "0":
                     break
             except ValueError:
-                print("No se puedo agregar un producto")
+                print("No se puede agregar una categoría")
 
     def Actualizar_Categoria(self):
         print("\n Actualizar Categoria")
         while True:
-            id_Categoria = input("Ingrese el ID de la categoria que desea modificar")
+            id_Categoria = input("Ingrese el ID de la categoria que desea modificar: ")
             if id_Categoria not in self.categorias:
-                print("Categoria no encontrada")
-                reintentar = input("Presione ENTER para intentar de nuevo o 0 para regresar al menú de Categorias")
+                print("Categoria no encontrada.")
+                reintentar = input("Presione ENTER para intentar de nuevo o 0 para regresar al menú de Categorias: ")
                 if reintentar == "0":
                     break
-            nombre_nuevo = input("Ingrese el nuevo nombre de la categoria").lower()
+                else:
+                    continue
+            nombre_nuevo = input("Ingrese el nuevo nombre de la categoria: ").lower()
             self.categorias[id_Categoria].nombre = nombre_nuevo
             print("Producto actualizado correctamente.")
-            intento = input("Presione ENTER para actualizar otro producto o 0 para regresar al menú de Categorias ")
+            intento = input("Presione ENTER para actualizar otro producto o 0 para regresar al menú de Categorias:  ")
             if intento == "0":
                 break
 
     def Eliminar_Categoria(self):
         print("\n Eliminar Categoria")
         while True:
-            id_Categoria = input("Ingrese el ID de la categoria que desea eliminar")
+            id_Categoria = input("Ingrese el ID de la categoria que desea eliminar: ")
             if id_Categoria in self.categorias:
                 eliminado = self.categorias.pop(id_Categoria)
                 print(f"El producto  ha sido eliminado correctamente.")
-                reintentar = input("Presione ENTER para intentar de nuevo o 0 para regresar al menú de Categorias")
+                reintentar = input("Presione ENTER para intentar de nuevo o 0 para regresar al menú de Categorias: ")
                 if reintentar == "0":
                     break
             else:
-                intentar = input("Categoria no encontrada presione ENTER para intentar de nuevo o 0 para regresar al menú de categorias")
+                intentar = input("Categoria no encontrada presione ENTER para intentar de nuevo o 0 para regresar al menú de categorias: ")
                 if intentar == "0":
                     break
 
@@ -99,26 +101,27 @@ class Datos_Categoria:
 
     def Mostrar_Categorias(self):
         if not self.categorias:
-            print(f"No hay Categorias Registradas")
+            print(f"No hay Categorias Registradas.")
             return
         lista_Categorias = list(self.categorias.values())
         ordenados = self.quick_sort(lista_Categorias)
-        print("Productos ordenados por nombre: ")
+        print("Categorias ordenados por nombre: ")
         for i, categoria in enumerate(ordenados, start=1):
-            print(f"{i}- ID: {categoria.id_categoria} / nombre {categoria.nombre}")
+            print(f"{i}- ID: {categoria.id_categoria} - nombre {categoria.nombre}")
+
 
     def Buscar_Categoria(self):
         while True:
-            id_buscar = input("Ingrese el codigo de la categoria que desea buscar")
+            id_buscar = input("Ingrese el codigo de la categoria que desea buscar: ")
             if id_buscar not in self.categorias:
                 print("Categoria no encontrada")
-                reintentar = input("Presione ENTER para intentar de nuevo o 0 para regresar al menú de Categorias")
+                reintentar = input("Presione ENTER para intentar de nuevo o 0 para regresar al menú de Categorias: ")
                 if reintentar == "0":
                     break
             categoria = self.categorias.get(id_buscar)
             if categoria:
                 print(f"Categoria encontrada: ID: {categoria.id_categoria} / Nombre: {categoria.nombre}")
-                intento = input("\n Presione ENTER para agregar otra categoria o ingrese 0 para regresar al menú de categorias. ")
+                intento = input("\n Presione ENTER para agregar otra categoria o ingrese 0 para regresar al menú de categorias: ")
                 if intento == "0":
                     break
             else:
@@ -139,7 +142,6 @@ class Datos_Productos:
     def __init__(self):
         self.productos = {}
 
-
     def sub_menu(self):
         while True:
             print("\n Productos ")
@@ -150,15 +152,23 @@ class Datos_Productos:
             print("4.- Mostrar Productos.")
             print("5.- Buscar Productos.")
             print("6.- Salir.")
-            opcion = int(input("Seleccione que opcion desea:"))
+            opcion = int(input("Seleccione que opcion desea: "))
             match opcion:
                 case 1:
                     self.Agregar_Producto()
                 case 2:
                     print("Actualizar")
                     self.Actualizar_Producto()
+                case 3:
+                    self.Eliminar_Productos()
                 case 4:
                     self.Mostrar_Productos()
+                case 5:
+                    self.Buscar_Producto()
+                case 6:
+                    print("Salir...")
+                    print("REGRESANDO AL MENÚ PRINCIPAL....")
+                    break
 
     def Agregar_Producto(self):
         print("\n Agregar Producto")
@@ -170,17 +180,16 @@ class Datos_Productos:
         if idc not in datos_categoria.categorias:
             print("Error: La categoría no existe. Agrega primero la categoría.")
         else:
-            stock = int(input("Stock inicial: "))
-            self.productos[idp] = Producto(idp, nombre, precio, idc, stock=stock)
+            self.productos[idp] = Producto(idp, nombre, precio, idc, stock=0)
             print("Producto agregado.")
 
 
     def Actualizar_Producto(self):
         print("\n Actualizar Producto")
         while True:
-            id_Producto = input("Ingrese el ID de la categoria que desea modificar")
+            id_Producto = input("Ingrese el ID del producto que desea modificar")
             if id_Producto not in self.productos:
-                print("Producto no encontrada")
+                print("Producto no encontrado")
                 reintentar = input("Presione ENTER para intentar de nuevo o 0 para regresar al menú de Productos")
                 if reintentar == "0":
                     break
@@ -232,6 +241,42 @@ class Datos_Productos:
         print("Productos ordenados por nombre: ")
         for i, producto in enumerate(ordenados, start=1):
             print(f" ID: {producto.id_producto} / nombre: {producto.nombre}")
+
+
+    def Eliminar_Productos(self):
+        print("\n Eliminar Productos")
+        while True:
+            id_Producto = input("Ingrese el ID del producto que desea eliminar")
+            if id_Producto in self.productos:
+                eliminado = self.productos.pop(id_Producto)
+                print(f"El producto ha sido eliminado correctamente.")
+                reintentar = input("Presione ENTER para intentar de nuevo o 0 para regresar al menú de Productos")
+                if reintentar == "0":
+                    break
+            else:
+                intentar = input("Producto no encontrado presione ENTER para intentar de nuevo o 0 para regresar al menú de categorias")
+                if intentar == "0":
+                    break
+
+    def Buscar_Producto(self):
+        while True:
+            id_buscar = input("Ingrese el codigo del producto que desea buscar")
+            if id_buscar not in self.productos:
+                print("Producto no encontrado")
+                reintentar = input("Presione ENTER para intentar de nuevo o 0 para regresar al menú de Categorias")
+                if reintentar == "0":
+                    break
+            producto = self.productos.get(id_buscar)
+            if producto:
+                print(f"Categoria encontrada: ID: {producto.id_producto} / Nombre: {producto.nombre}")
+                intento = input("\n Presione ENTER para buscar otro producto o ingrese 0 para regresar al menú de categorias. ")
+                if intento == "0":
+                    break
+            else:
+                print("Producto no encontrada.")
+
+class Proveedores:
+    def __init__(self,):
 
 
 
