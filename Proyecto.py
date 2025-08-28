@@ -311,7 +311,7 @@ class Datos_Proveedor:
                 case 4:
                     self.Mostrar_Proveedor()
                 case 5:
-                    self.Buscar_Producto()
+                    self.Buscar_Proveedor()
                 case 6:
                     print("Salir...")
                     print("REGRESANDO AL MENÚ PRINCIPAL....")
@@ -347,7 +347,7 @@ class Datos_Proveedor:
                 nuevo_NIT = input("Ingrese el nuevo NIT: ")
                 if nuevo_NIT in self.proveedores:
                     print("El NIT ya existe en otro proveedor intente de nuevo")
-                    intento = input("Presione ENTER para intentar de nuevo o 0 para regresar al menú de Proveedores ")
+                    intento = input("Presione ENTER para intentar de nuevo o 6 para regresar al menú de Proveedores ")
                     if intento == "0":
                         break
                 else:
@@ -369,21 +369,21 @@ class Datos_Proveedor:
                 direccion_nuevo = input("Ingrese la nueva direccion del proveedor: ").lower()
                 self.proveedores[nit_Proveedor].direccion = direccion_nuevo
                 print("Direccion del proveedor actualizado Correctamente.")
-                intento = input("Presione ENTER para actualizar otro producto o 6 para regresar al menú de Productos ")
+                intento = input("Presione ENTER para actualizar otro producto o 6 para regresar al menú de Proveedores ")
                 if intento == "6":
                     break
             elif actualizar == 4:
                 telefono_nuevo = input("Ingrese el nuevo telefono del proveedor: ").lower()
                 self.proveedores[nit_Proveedor].telefono = telefono_nuevo
                 print("Telefono del proveedor actualizado Correctamente.")
-                intento = input("Presione ENTER para actualizar otro producto o 6 para regresar al menú de Productos ")
+                intento = input("Presione ENTER para actualizar otro producto o 6 para regresar al menú de Proveedores ")
                 if intento == "6":
                     break
             elif actualizar == 5:
                 correo_nuevo = input("Ingrese el nuevo correo del proveedor: ").lower()
                 self.proveedores[nit_Proveedor].correo = correo_nuevo
                 print("Correo del proveedor actualizado Correctamente.")
-                intento = input("Presione ENTER para actualizar otro producto o 6 para regresar al menú de Productos ")
+                intento = input("Presione ENTER para actualizar otro producto o 6 para regresar al menú de Proveedores ")
                 if intento == "6":
                     break
             elif actualizar == 6:
@@ -408,40 +408,46 @@ class Datos_Proveedor:
         ordenados = self.quick_sort_Proveedores(lista_Proveedores)
         print("Proveedores ordenados por nombre: ")
         for i, proveedores in enumerate(ordenados, start=1):
-            print(f" ID: {proveedores.nit} / nombre: {proveedores.nombre}")
+            print(f"Empresa: {proveedores.empresa}")
+            print(f"NIT: {proveedores.nit}")
+            print(f"Nombre: {proveedores.nombre}")
+            print(f"Direccion: {proveedores.direccion}")
 
     def Eliminar_Proveedor(self):
         print("\n Eliminar Proveedor")
         while True:
-            Nit_Proveedor = input("Ingrese el ID del producto que desea eliminar")
+            Nit_Proveedor = input("Ingrese el NIT del proovedor que desea eliminar")
             if Nit_Proveedor in self.proveedores:
                 eliminado = self.proveedores.pop(Nit_Proveedor)
                 print(f"El Proveedor ha sido eliminado correctamente.")
-                reintentar = input("Presione ENTER para intentar de nuevo o 0 para regresar al menú de Proveedores")
-                if reintentar == "0":
+                reintentar = input("Presione ENTER para intentar de nuevo o 6 para regresar al menú de Proveedores")
+                if reintentar == "6":
                     break
             else:
-                intentar = input("Proveedor no encontrado presione ENTER para intentar de nuevo o 0 para regresar al menú de categorias")
-                if intentar == "0":
+                intentar = input("Proveedor no encontrado presione ENTER para intentar de nuevo o 6 para regresar al menú de Proveedores")
+                if intentar == "6":
                     break
 
-    def Buscar_Producto(self):
+    def Buscar_Proveedor(self):
         while True:
-            id_buscar = input("Ingrese el codigo del producto que desea buscar")
-            if id_buscar not in self.productos:
-                print("Producto no encontrado")
-                reintentar = input("Presione ENTER para intentar de nuevo o 0 para regresar al menú de Categorias")
-                if reintentar == "0":
+            Nit_buscar = input("Ingrese el NIT del proveedor que desea buscar")
+            if Nit_buscar not in self.proveedores:
+                print("Proveedor no encontrado")
+                reintentar = input("Presione ENTER para intentar de nuevo o 6 para regresar al menú de Proveedores")
+                if reintentar == "6":
                     break
-            producto = self.productos.get(id_buscar)
-            if producto:
-                print(f"Categoria encontrada: ID: {producto.id_producto} / Nombre: {producto.nombre}")
-                intento = input(
-                    "\n Presione ENTER para buscar otro producto o ingrese 0 para regresar al menú de categorias. ")
-                if intento == "0":
+            proveedor = self.proveedores.get(Nit_buscar)
+            if proveedor:
+                print(f"Proveedor encontrado:")
+                print(f"Empresa: {proveedor.empresa}")
+                print(f"NIT: {proveedor.nit}")
+                print(f"Nombre: {proveedor.nombre}")
+                print(f"Direccion: {proveedor.direccion}")
+                intento = input("\n Presione ENTER para buscar otro proveedor o ingrese 6 para regresar al menú de Proveedores. ")
+                if intento == "6":
                     break
             else:
-                print("Producto no encontrada.")
+                print("Proveedor no encontrado.")
 
 
 class Menu:
