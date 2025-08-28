@@ -449,6 +449,97 @@ class Datos_Proveedor:
             else:
                 print("Proveedor no encontrado.")
 
+class Empleado:
+    def __init__(self, id_Empleado, nombre, direccion, telefono, correo, puesto):
+        self.id_Empleado = id_Empleado
+        self.nombre = nombre
+        self.direccion = direccion
+        self.telefono = telefono
+        self.correo = correo
+        self.puesto = puesto
+
+class Datos_Empleados:
+    def __init__(self):
+        self.empleados = {}
+
+    def sub_menu(self):
+        while True:
+            print("\n Empleados ")
+            print("Bienvenido")
+            print("1.- Registrar Nuevo Empleado.")
+            print("2.- Actualizar Empleado.")
+            print("3.- Eliminar Empleado.")
+            print("4.- Mostrar Empleado.")
+            print("5.- Buscar Empleado.")
+            print("6.- Salir.")
+            opcion = int(input("Seleccione que opcion desea: "))
+            match opcion:
+                case 1:
+                    self.Agregar_Empleado()
+                case 2:
+                    print("Actualizar")
+                    self.Actualizar_Empleado()
+                case 3:
+                    self.Eliminar_Empleado()
+                case 4:
+                    self.Mostrar_Empleado()
+                case 5:
+                    self.Buscar_Empleado()
+                case 6:
+                    print("Salir...")
+                    print("REGRESANDO AL MENÚ PRINCIPAL....")
+                    break
+
+    def Agregar_Empleado(self):
+        print("\n Agregar un Nuevo Empleado")
+        id_empleado = input("Ingrese cual sera el ID del Empleado: ")
+        nombre = input("Nombre del Nuevo Empleado: ")
+        direccion = input("Direccion del Nuevo Empleado: ")
+        telefono = input("Telefono del Empleado: ")
+        correo = input("Correo del Empleado: ")
+        puesto = input("Puesto del Empleado: ")
+        self.empleados[id_empleado] = Empleado(id_empleado, nombre, direccion, telefono, correo, puesto)
+        print("Proveedor Agregado Correctamente.")
+
+    def Actualizar_Empleado(self):
+        print("\n Actualizar Empleado")
+        while True:
+            id_Empleado = input("Ingrese el Id del empleado que va modificar")
+            if id_Empleado not in self.empleados:
+                print("Empleado no encontrado")
+                reintentar = input("Presione ENTER para intentar de nuevo o 5 para regresar al menú de Empleados")
+                if reintentar == "0":
+                    break
+            print("1.- Cambiar Direccion del Empleado")
+            print("2.- Cambiar Telefono del Empleado")
+            print("3.- Cambiar Correo del Empleado")
+            print("4.- Cambiar Puesto del Empleado")
+            print("5.- Salir")
+            actualizar = int(input("Ingrese la opcion que desea: "))
+            if actualizar == 1:
+                direccion_nueva = input("Ingrese la nueva direccion del Empleado: ").lower()
+                self.empleados[id_Empleado].direccion = direccion_nueva
+                print("Direccion del Empleado actualizada Correctamente.")
+                intento = input("Presione ENTER para actualizar otro producto o 5 para regresar al menú de Empleados: ")
+                if intento == "6":
+                    break
+            elif actualizar == 2:
+                telefono_nuevo = input("Ingrese el Nuevo Telefono del Empleado")
+                self.empleados[id_Empleado].telefono = telefono_nuevo
+                print("Telefono del Empleado actualizado Correctamente.")
+                intento = input("Preesione Enter para actualizar otro producto 5 para regresar al menú de Empleados: ")
+
+
+
+
+
+
+
+
+
+
+
+
 
 class Menu:
     def __init__(self):
