@@ -7,6 +7,7 @@ class Datos_Categoria:
     def __init__(self):
         self.categorias = {}
 
+
     def sub_menu(self):
         while True:
             print("\n Categorias")
@@ -306,9 +307,9 @@ class Datos_Proveedor:
                     print("Actualizar")
                     self.Actualizar_Proveedor()
                 case 3:
-                    self.Eliminar_Productos()
+                    self.Eliminar_Proveedor()
                 case 4:
-                    self.Mostrar_Productos()
+                    self.Mostrar_Proveedor()
                 case 5:
                     self.Buscar_Producto()
                 case 6:
@@ -341,7 +342,7 @@ class Datos_Proveedor:
             print("4.- Cambiar Telefono del Proveedor")
             print("5.- Cambiar Correo del Proveedor")
             print("6.- Salir")
-            actualizar = int(input("Ingrese la opcion que desea."))
+            actualizar = int(input("Ingrese la opcion que desea: "))
             if actualizar == 1:
                 nuevo_NIT = input("Ingrese el nuevo NIT: ")
                 if nuevo_NIT in self.proveedores:
@@ -350,82 +351,97 @@ class Datos_Proveedor:
                     if intento == "0":
                         break
                 else:
-                    NIT = self.proveedores.pop(Nit)
-                    NIT. = nuevo_id
-                    self.productos[nuevo_id] = producto
-                    print("Id producto actualizado Correctamente.")
-                    intento = input(
-                        "Presione ENTER para actualizar otro producto o 3 para regresar al menú de Productos ")
-                    if intento == "3":
+                    NIT = self.proveedores.pop(nit_Proveedor)
+                    NIT.nit = nuevo_NIT
+                    self.proveedores[nuevo_NIT] = NIT
+                    print("NIT Proveedor actualizado Correctamente.")
+                    intento = input("Presione ENTER para actualizar otro producto o 6 para regresar al menú de Productos ")
+                    if intento == "6":
                         break
             elif actualizar == 2:
-                nombre_nuevo = input("Ingrese el nuevo nombre del Propietario del NIT").lower()
-                self.proovedor[n].nombre = nombre_nuevo
+                nombre_nuevo = input("Ingrese el nuevo nombre del propietario del NIT: ").lower()
+                self.proveedores[nit_Proveedor].nombre = nombre_nuevo
                 print("Nombre del Propietario actualizado correctamente.")
-                intento = input("Presione ENTER para actualizar otro Nombre del Propietario ó 6 para regresar al menú de Productos ")
-                if intento == "3":
+                intento = input("Presione ENTER para actualizar otro Proveedor o 6 para regresar al menú de Proveedores ")
+                if intento == "6":
                     break
-            if actualizar == 3:
-                direccion_nueva = input("Ingrese la nueva Direccion del Proveedor").lower()
-                self.proovedor[nit_Proveedor].direccion = direccion_nueva
-                print("Direccion del Propietario actualizado correctamente.")
-                intento = input("Presione ENTER para actualizar otra direccion ó 6 para regresar al menú de Productos ")
-                if intento == "3":
+            elif actualizar == 3:
+                direccion_nuevo = input("Ingrese la nueva direccion del proveedor: ").lower()
+                self.proveedores[nit_Proveedor].direccion = direccion_nuevo
+                print("Direccion del proveedor actualizado Correctamente.")
+                intento = input("Presione ENTER para actualizar otro producto o 6 para regresar al menú de Productos ")
+                if intento == "6":
                     break
+            elif actualizar == 4:
+                telefono_nuevo = input("Ingrese el nuevo telefono del proveedor: ").lower()
+                self.proveedores[nit_Proveedor].telefono = telefono_nuevo
+                print("Telefono del proveedor actualizado Correctamente.")
+                intento = input("Presione ENTER para actualizar otro producto o 6 para regresar al menú de Productos ")
+                if intento == "6":
+                    break
+            elif actualizar == 5:
+                correo_nuevo = input("Ingrese el nuevo correo del proveedor: ").lower()
+                self.proveedores[nit_Proveedor].correo = correo_nuevo
+                print("Correo del proveedor actualizado Correctamente.")
+                intento = input("Presione ENTER para actualizar otro producto o 6 para regresar al menú de Productos ")
+                if intento == "6":
+                    break
+            elif actualizar == 6:
+                print("Regresando al menú de Proveedor...")
+                break
 
-        def quick_sort_Productos(self, lista):
-            if len(lista) <= 1:
-                return lista
+    def quick_sort_Proveedores(self, lista):
+        if len(lista) <= 1:
+            return lista
+        else:
+            pivote = lista[0].nombre.lower()
+            mayores = [x for x in lista[1:] if x.nombre.lower() > pivote]
+            iguales = [x for x in lista[1:] if x.nombre.lower() == pivote]
+            menores = [x for x in lista[1:] if x.nombre.lower() < pivote]
+            return self.quick_sort_Proveedores(menores) + [lista[0]] + iguales + self.quick_sort_Proveedores(mayores)
+
+    def Mostrar_Proveedor(self):
+        if not self.proveedores:
+            print(f"No hay Proveedores Registrados")
+            return
+        lista_Proveedores = list(self.proveedores.values())
+        ordenados = self.quick_sort_Proveedores(lista_Proveedores)
+        print("Proveedores ordenados por nombre: ")
+        for i, proveedores in enumerate(ordenados, start=1):
+            print(f" ID: {proveedores.nit} / nombre: {proveedores.nombre}")
+
+    def Eliminar_Proveedor(self):
+        print("\n Eliminar Proveedor")
+        while True:
+            Nit_Proveedor = input("Ingrese el ID del producto que desea eliminar")
+            if Nit_Proveedor in self.proveedores:
+                eliminado = self.proveedores.pop(Nit_Proveedor)
+                print(f"El Proveedor ha sido eliminado correctamente.")
+                reintentar = input("Presione ENTER para intentar de nuevo o 0 para regresar al menú de Proveedores")
+                if reintentar == "0":
+                    break
             else:
-                pivote = lista[0].nombre.lower()
-                mayores = [x for x in lista[1:] if x.nombre.lower() > pivote]
-                iguales = [x for x in lista[1:] if x.nombre.lower() == pivote]
-                menores = [x for x in lista[1:] if x.nombre.lower() < pivote]
-                return self.quick_sort_Productos(menores) + [lista[0]] + iguales + self.quick_sort_Productos(mayores)
+                intentar = input("Proveedor no encontrado presione ENTER para intentar de nuevo o 0 para regresar al menú de categorias")
+                if intentar == "0":
+                    break
 
-        def Mostrar_Productos(self):
-            if not self.productos:
-                print(f"No hay Productos Registrados")
-                return
-            lista_Productos = list(self.productos.values())
-            ordenados = self.quick_sort_Productos(lista_Productos)
-            print("Productos ordenados por nombre: ")
-            for i, producto in enumerate(ordenados, start=1):
-                print(f" ID: {producto.id_producto} / nombre: {producto.nombre}")
-
-        def Eliminar_Productos(self):
-            print("\n Eliminar Productos")
-            while True:
-                id_Producto = input("Ingrese el ID del producto que desea eliminar")
-                if id_Producto in self.productos:
-                    eliminado = self.productos.pop(id_Producto)
-                    print(f"El producto ha sido eliminado correctamente.")
-                    reintentar = input("Presione ENTER para intentar de nuevo o 0 para regresar al menú de Productos")
-                    if reintentar == "0":
-                        break
-                else:
-                    intentar = input(
-                        "Producto no encontrado presione ENTER para intentar de nuevo o 0 para regresar al menú de categorias")
-                    if intentar == "0":
-                        break
-
-        def Buscar_Producto(self):
-            while True:
-                id_buscar = input("Ingrese el codigo del producto que desea buscar")
-                if id_buscar not in self.productos:
-                    print("Producto no encontrado")
-                    reintentar = input("Presione ENTER para intentar de nuevo o 0 para regresar al menú de Categorias")
-                    if reintentar == "0":
-                        break
-                producto = self.productos.get(id_buscar)
-                if producto:
-                    print(f"Categoria encontrada: ID: {producto.id_producto} / Nombre: {producto.nombre}")
-                    intento = input(
-                        "\n Presione ENTER para buscar otro producto o ingrese 0 para regresar al menú de categorias. ")
-                    if intento == "0":
-                        break
-                else:
-                    print("Producto no encontrada.")
+    def Buscar_Producto(self):
+        while True:
+            id_buscar = input("Ingrese el codigo del producto que desea buscar")
+            if id_buscar not in self.productos:
+                print("Producto no encontrado")
+                reintentar = input("Presione ENTER para intentar de nuevo o 0 para regresar al menú de Categorias")
+                if reintentar == "0":
+                    break
+            producto = self.productos.get(id_buscar)
+            if producto:
+                print(f"Categoria encontrada: ID: {producto.id_producto} / Nombre: {producto.nombre}")
+                intento = input(
+                    "\n Presione ENTER para buscar otro producto o ingrese 0 para regresar al menú de categorias. ")
+                if intento == "0":
+                    break
+            else:
+                print("Producto no encontrada.")
 
 
 class Menu:
