@@ -764,7 +764,7 @@ while True:
                         break
             case 3:
                 try:
-                    Datos_Productos().sub_menu()
+                    Datos_Cliente().sub_menu()
                 except ValueError:
                     validar = input(f"\n Opcion no valida presione ENTER para intentar de nuevo o 6 para Salir del programa: ")
                     if validar == "6":
