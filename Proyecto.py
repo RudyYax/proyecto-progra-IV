@@ -482,7 +482,7 @@ class Datos_Empleados:
                 case 3:
                     self.Eliminar_Empleado()
                 case 4:
-                    self.Mostrar_Empleado()
+                    self.Mostrar_Empleados()
                 case 5:
                     self.Buscar_Empleado()
                 case 6:
@@ -520,23 +520,85 @@ class Datos_Empleados:
                 direccion_nueva = input("Ingrese la nueva direccion del Empleado: ").lower()
                 self.empleados[id_Empleado].direccion = direccion_nueva
                 print("Direccion del Empleado actualizada Correctamente.")
-                intento = input("Presione ENTER para actualizar otro producto o 5 para regresar al menú de Empleados: ")
-                if intento == "6":
+                intento = input("Presione ENTER para actualizar otro dato de algún empleado o 5 para regresar al menú de Empleados: ")
+                if intento == "5":
                     break
             elif actualizar == 2:
-                telefono_nuevo = input("Ingrese el Nuevo Telefono del Empleado")
+                telefono_nuevo = input("Ingrese el Nuevo Telefono del Empleado: ")
                 self.empleados[id_Empleado].telefono = telefono_nuevo
                 print("Telefono del Empleado actualizado Correctamente.")
-                intento = input("Preesione Enter para actualizar otro producto 5 para regresar al menú de Empleados: ")
-
-
-
-
-
-
-
-
-
+                intento = input("Preesione Enter para actualizar otro dato de algún empleado ó 5 para regresar al menú de Empleados: ")
+                if intento == "5":
+                    break
+            elif actualizar == 3:
+                correo_nuevo = input("Ingrese el Nuevo Correo del Empleado: ")
+                self.empleados[id_Empleado].correo = correo_nuevo
+                print("Correo del Empleado actualizado Correctamente.")
+                intento = input("Presione ENTER para actualizar otro dato de algún empleado ó 5 para regresar al menú de Empleados: ")
+                if intento == "5":
+                    break
+            elif actualizar == 4:
+                puesto_nuevo = input("Ingrese el Nuevo Puesto:")
+                self.empleados[id_Empleado].puesto = puesto_nuevo
+                print("Correo del Empleado actualizado Correctamente.")
+                intento = input("Presione ENTER para actualizar otro dato de algún empleado ó 5 para regresar al menú de Empleados: ")
+                if intento == "5":
+                    break
+            elif actualizar == 5:
+                print("Regresando al menú de Proveedor...")
+                break
+    def Eliminar_Empleado(self):
+        print("\n Eliminar Empleado")
+        while True:
+            id_empleado = input("Ingrese el ID del Empleado que deseea Eliminar: ")
+            if id_empleado in self.empleados:
+                eliminado = self.empleados.pop(id_empleado)
+                print(f"Empleado eliminado correctamente.")
+                reintentar = input("Presione ENTER para intentar de nuevo o 6 para regresar al menú de Empleados: ")
+                if reintentar == "6":
+                    break
+            else:
+                intentar = input("Empleado no encontrado presione ENTER para intentar de nuevo o 6 para regresar al menú de Empleados")
+                if intentar == "6":
+                    break
+    def quick_sort_Empleados(self, lista):
+        if len(lista) <= 1:
+            return lista
+        else:
+            pivote = lista[0].nombre.lower()
+            mayores = [x for x in lista[1:] if x.nombre.lower() > pivote]
+            iguales = [x for x in lista[1:] if x.nombre.lower() == pivote]
+            menores = [x for x in lista[1:] if x.nombre.lower() < pivote]
+            return self.quick_sort_Empleados(menores) + [lista[0]] + iguales + self.quick_sort_Empleados(mayores)
+    def Mostrar_Empleados(self):
+        if not self.empleados:
+            print(f"No hay Empleados Registrados")
+            return
+        lista_Empleados = list(self.empleados.values())
+        ordenados = self.quick_sort_Empleados(lista_Empleados)
+        print("Empleados ordenados por nombre: ")
+        for i, empleados in enumerate(ordenados, start=1):
+            print(f"Nombre: {empleados.nombre}")
+            print(f"Telefono:  {empleados.telefono}")
+            print(f"Direccion: {empleados.direccion}")
+            print(f"Puesto: {empleados.puesto}")
+    def Buscar_Empleado(self):
+        while True:
+            id_buscar = input("Ingrese el Id del empleado que desea buscar: ")
+            if id_buscar not in self.empleados:
+                print("Empledo no encontrado")
+                reintentar = input("Presione ENTER para intentar de nuevo o 6 para regresar al menú de Empleados")
+                if reintentar == "6":
+                    break
+            empleado = self.empleados.get(id_buscar)
+            if empleado:
+                print(f"Proveedor encontrado:")
+                self.Mostrar_Empleados([empleado])
+                intento = input("\n Presione ENTER para buscar otro proveedor o ingrese 6 para regresar al menú de Proveedores. ")
+                if intento == "6":
+                    break
+            else:
+                print("Proveedor no encontrado.")
 
 
 
@@ -566,23 +628,28 @@ while True:
                 try:
                     datos_categoria.sub_menu()
                 except ValueError:
-                    validar = input(f"\n Opcion no valida presione ENTER para intentar de nuevo o 6 para Salir del programa")
+                    validar = input(f"\n Opcion no valida presione ENTER para intentar de nuevo o 6 para Salir del programa: ")
                     if validar == "6":
                         break
             case 2:
                 try:
                     Datos_Productos().sub_menu()
                 except ValueError:
-                    validar = input(f"\n Opcion no valida presione ENTER para intentar de nuevo o 6 para Salir del programa")
+                    validar = input(f"\n Opcion no valida presione ENTER para intentar de nuevo o 6 para Salir del programa: ")
                     if validar == "6":
                         break
             case 4:
                 try:
                     Datos_Proveedor().sub_menu()
                 except ValueError:
-                    validar = input(f"\n Opcion no valida presione ENTER para intentar de nuevo o 6 para Salir del programa")
+                    validar = input(f"\n Opcion no valida presione ENTER para intentar de nuevo o 6 para Salir del programa: ")
                     if validar == "6":
                         break
+            case 5:
+                try:
+                    Datos_Empleados().sub_menu()
+                except ValueError:
+                    validar = input(f"\n Opcion no valida presione ENTER para intentar de nuevo o 6 para Salir del programa:  ")
 
             case 6:
                 print("Saliendo...")
