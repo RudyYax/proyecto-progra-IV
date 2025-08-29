@@ -10,15 +10,15 @@ class Datos_Categoria:
 
     def sub_menu(self):
         while True:
-            print("\n Categorias")
-            print("Bienvenido")
+            print("\n --Bienvenido--")
+            print(" ****Categorias****")
             print("1.- Registrar Nueva Categoria.")
             print("2.- Actualizar Categoria.")
             print("3.- Eliminar Categoria.")
             print("4.- Mostrar Categoria.")
             print("5.- Buscar Categoria.")
-            print("6.- Salir Categoria.")
-            opcion = int(input("Seleccione que opcion desea: "))
+            print("6.- Salir Menú Categoria.")
+            opcion = int(input("Seleccione la opción desea: "))
             match opcion:
                 case 1:
                     self.Agregar_Categoria()
@@ -32,19 +32,17 @@ class Datos_Categoria:
                     self.Buscar_Categoria()
                 case 6:
                     print("Salir...")
-                    print("REGRESANDO AL MENÚ PRINCIPAL....")
+                    print("REGRESANDO AL MENÚ PRINCIPAL.... \n")
                     break
-
-
     def Agregar_Categoria(self):
-        print("\n Registrar Categoria")
+        print("\n **** Registrar Categoria ****")
         while True:
             try:
                 Id_Categoria = input("Ingrese el Id de la nueva categoria: ")
                 if Id_Categoria in self.categorias:
-                    print("La categoria ya existe.")
-                    error = print("Presione ENTER para intentar de nuevo o 0 para salir.")
-                    if error == 0:
+                    print("La Categoria ya existe.")
+                    error = input("Presione ENTER para intentar de nuevo o 0 para salir: ")
+                    if error == "0":
                         break
                     else:
                         continue
@@ -58,7 +56,7 @@ class Datos_Categoria:
                 print("No se puede agregar una categoría")
 
     def Actualizar_Categoria(self):
-        print("\n Actualizar Categoria")
+        print("\n **** Actualizar Categoria ****")
         while True:
             id_Categoria = input("Ingrese el ID de la categoria que desea modificar: ")
             if id_Categoria not in self.categorias:
@@ -70,13 +68,13 @@ class Datos_Categoria:
                     continue
             nombre_nuevo = input("Ingrese el nuevo nombre de la categoria: ").lower()
             self.categorias[id_Categoria].nombre = nombre_nuevo
-            print("Producto actualizado correctamente.")
-            intento = input("Presione ENTER para actualizar otro producto o 0 para regresar al menú de Categorias:  ")
+            print("Categoria actualizada correctamente.")
+            intento = input("Presione ENTER para actualizar otra Categoria o 0 para regresar al menú de Categorias: ")
             if intento == "0":
                 break
 
     def Eliminar_Categoria(self):
-        print("\n Eliminar Categoria")
+        print("\n **** Eliminar Categoria ****")
         while True:
             id_Categoria = input("Ingrese el ID de la categoria que desea eliminar: ")
             if id_Categoria in self.categorias:
