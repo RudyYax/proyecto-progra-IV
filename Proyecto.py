@@ -6,7 +6,25 @@ class Categoria:
 class Datos_Categoria:
     def __init__(self):
         self.categorias = {}
+        self.cargar_categorias()
 
+    def cargar_categorias(self):
+        try:
+            with open("categorias.txt", "r", encoding="utf-8") as archivo:
+                for linea in archivo:
+                    linea = linea.strip()
+                    if linea:
+                        id_categoria, nombre = linea.split(":")
+                        self.categorias[id_categoria] = Categoria(id_categoria, nombre)
+
+            print("Categorias importadas desde catetorias.txt")
+        except FileNotFoundError:
+            print("No existe el archivo categorias.txt, se creará uno nuevo al guardar.")
+
+    def guardar_categorias(self):
+        with open("categorias.txt", "w", encoding="utf-8") as archivo:
+            for categoria in self.categorias.values():
+                archivo.write(f"{categoria.id_categoria}:{categoria.nombre}\n")
 
     def sub_menu(self):
         while True:
@@ -43,14 +61,17 @@ class Datos_Categoria:
                     print("La Categoria ya existe.")
                     error = input("Presione ENTER para intentar de nuevo o 0 para salir: ")
                     if error == "0":
+                        print("SALIENDO AL MENU CATEGORIAS...")
                         break
                     else:
                         continue
                 Nombre_Categoria = input("Ingrese el nombre de la categoria: ").lower()
                 self.categorias[Id_Categoria] = Categoria(Id_Categoria, Nombre_Categoria)
+                self.guardar_categorias()
                 print("Categoría registrada correctamente.")
                 intento = input("Presione ENTER para agregar otra categoria o ingrese 0 para regresar al menú de categorias. ")
                 if intento == "0":
+                    print("SALIENDO AL MENU CATEGORIAS...")
                     break
             except ValueError:
                 print("No se puede agregar una categoría")
@@ -63,14 +84,17 @@ class Datos_Categoria:
                 print("Categoria no encontrada.")
                 reintentar = input("Presione ENTER para intentar de nuevo o 0 para regresar al menú de Categorias: ")
                 if reintentar == "0":
+                    print("SALIENDO AL MENU CATEGORIAS...")
                     break
                 else:
                     continue
             nombre_nuevo = input("Ingrese el nuevo nombre de la categoria: ").lower()
             self.categorias[id_Categoria].nombre = nombre_nuevo
+            self.guardar_categorias()
             print("Categoria actualizada correctamente.")
             intento = input("Presione ENTER para actualizar otra Categoria o 0 para regresar al menú de Categorias: ")
             if intento == "0":
+                print("SALIENDO AL MENU CATEGORIAS...")
                 break
 
     def Eliminar_Categoria(self):
@@ -79,13 +103,16 @@ class Datos_Categoria:
             id_Categoria = input("Ingrese el ID de la categoria que desea eliminar: ")
             if id_Categoria in self.categorias:
                 eliminado = self.categorias.pop(id_Categoria)
-                print(f"El producto  ha sido eliminado correctamente.")
+                self.guardar_categorias()
+                print(f"La categoria ha sido eliminado correctamente.")
                 reintentar = input("Presione ENTER para intentar de nuevo o 0 para regresar al menú de Categorias: ")
                 if reintentar == "0":
+                    print("SALIENDO AL MENU CATEGORIAS...")
                     break
             else:
                 intentar = input("Categoria no encontrada presione ENTER para intentar de nuevo o 0 para regresar al menú de categorias: ")
                 if intentar == "0":
+                    print("SALIENDO AL MENU CATEGORIAS...")
                     break
 
     def quick_sort(self, lista):
@@ -116,12 +143,14 @@ class Datos_Categoria:
                 print("Categoria no encontrada")
                 reintentar = input("Presione ENTER para intentar de nuevo o 0 para regresar al menú de Categorias: ")
                 if reintentar == "0":
+                    print("SALIENDO AL MENU CATEGORIAS...")
                     break
             categoria = self.categorias.get(id_buscar)
             if categoria:
                 print(f"Categoria encontrada: ID: {categoria.id_categoria} / Nombre: {categoria.nombre}")
                 intento = input("\n Presione ENTER para agregar otra categoria o ingrese 0 para regresar al menú de categorias: ")
                 if intento == "0":
+                    print("SALIENDO AL MENU CATEGORIAS...")
                     break
             else:
                 print("Categoria no encontrada.")
@@ -140,6 +169,25 @@ class Producto:
 class Datos_Productos:
     def __init__(self):
         self.productos = {}
+        self.cargar_productos()
+
+    def cargar_productos(self):
+        try:
+            with open("productos.txt", "r", encoding="utf-8") as archivo:
+                for linea in archivo:
+                    linea = linea.strip()
+                    if linea:
+                        id_producto, nombre, precio, id_categoria, stock = linea.split(":")
+                        self.productos[id_producto] = Producto(id_producto, nombre, precio, id_categoria, stock)
+
+            print("Productos importados desde productos.txt")
+        except FileNotFoundError:
+            print("No existe el archivo productos.txt, se creará uno nuevo al guardar.")
+
+    def guardar_productos(self):
+        with open("productos.txt", "w", encoding="utf-8") as archivo:
+            for productos in self.productos.values():
+                archivo.write(f"{productos.id_producto}:{productos.nombre}:{productos.precio}:{productos.id_categoria}:{productos.stock}\n")
 
     def sub_menu(self):
         while True:
@@ -156,7 +204,6 @@ class Datos_Productos:
                 case 1:
                     self.Agregar_Producto()
                 case 2:
-                    print("Actualizar")
                     self.Actualizar_Producto()
                 case 3:
                     self.Eliminar_Productos()
@@ -170,57 +217,73 @@ class Datos_Productos:
                     break
 
     def Agregar_Producto(self):
-        print("\n Agregar Producto")
-        idp = input("IDProducto: ")
-        nombre = input("Nombre producto: ")
-        precio = float(input("Precio: Q"))
-        idc = input("IDCategoria del producto: ")
-
-        if idc not in datos_categoria.categorias:
-            print("Error: La categoría no existe. Agrega primero la categoría.")
-        else:
-            self.productos[idp] = Producto(idp, nombre, precio, idc, stock=0)
-            print("Producto agregado.")
-
-
+        print("\n Crear codigo del Producto")
+        while True:
+            idp = input("ID del producto: ")
+            if idp in self.productos:
+                print("Error: Ya existe un producto con ese ID.")
+                reintentar = input("Presione ENTER para intentar de nuevo o 0 para regresar al menú de Productos: ")
+                if reintentar == "0":
+                    print("SALIENDO AL MENU PRODUCTOS...")
+                    return
+                else:
+                    continue
+            else:
+                nombre = input("Nombre producto: ")
+                precio = float(input("Precio estimado: Q"))
+                idc = input("IDCategoria del producto: ")
+                if idc not in datos_categoria.categorias:
+                    print("Error: La categoría no existe. Agrega primero la categoría.")
+                    break
+                else:
+                    self.productos[idp] = Producto(idp, nombre, precio, idc, stock=0)
+                    self.guardar_productos()
+                    print("Producto agregado Correctamente.")
+                    break
     def Actualizar_Producto(self):
         print("\n Actualizar Producto")
         while True:
-            id_Producto = input("Ingrese el ID del producto que desea modificar")
+            id_Producto = input("Ingrese el ID del producto que desea modificar: ")
             if id_Producto not in self.productos:
                 print("Producto no encontrado")
-                reintentar = input("Presione ENTER para intentar de nuevo o 0 para regresar al menú de Productos")
+                reintentar = input("Presione ENTER para intentar de nuevo o 0 para regresar al menú de Productos: ")
                 if reintentar == "0":
+                    print("SALIENDO AL MENU PRODUCTOS...")
                     break
             print("1.- Cambiar Id del Producto")
             print("2.- Cambiar nombre del producto")
             print("3.- Salir")
-            actualizar = int(input("Ingrese la opcion que desea."))
+            actualizar = int(input("Ingrese la opcion que desea: "))
             if actualizar == 1:
                 nuevo_id = input("Ingrese el nuevo ID: ")
                 if nuevo_id in self.productos:
                     print("El ID ya existe en otro producto intente de nuevo")
-                    intento = input("Presione ENTER para intentar de nuevo o 0 para regresar al menú de Categorias ")
+                    intento = input("Presione ENTER para intentar de nuevo o 0 para regresar al menú de Productos: ")
                     if intento == "0":
+                        print("SALIENDO AL MENU PRODUCTOS...")
                         break
                 else:
                      producto = self.productos.pop(id_Producto)
                      producto.id_producto = nuevo_id
                      self.productos[nuevo_id] = producto
+                     self.guardar_productos()
                      print("Id producto actualizado Correctamente.")
-                     intento = input("Presione ENTER para actualizar otro producto o 3 para regresar al menú de Productos ")
+                     intento = input("Presione ENTER para actualizar otro producto o 3 para regresar al menú de Productos: ")
                      if intento == "3":
+                        print("SALIENDO AL MENU PRODUCTOS...")
                         break
             elif actualizar == 2:
-                nombre_nuevo = input("Ingrese el nuevo nombre del producto").lower()
+                nombre_nuevo = input("Ingrese el nuevo nombre del producto: ").lower()
                 self.productos[id_Producto].nombre = nombre_nuevo
+                self.guardar_productos()
                 print("Nombre del Producto actualizado correctamente.")
-                intento = input("Presione ENTER para actualizar otro producto o 3 para regresar al menú de Productos ")
+                intento = input("Presione ENTER para actualizar otro producto o 3 para regresar al menú de Productos: ")
                 if intento == "3":
+                    print("SALIENDO AL MENU PRODUCTOS...")
                     break
             if actualizar == 3:
+                print("Regresando al menú Productos")
                 break
-
     def quick_sort_Productos(self, lista):
         if len(lista) <= 1:
             return lista
@@ -241,38 +304,42 @@ class Datos_Productos:
         for i, producto in enumerate(ordenados, start=1):
             print(f" ID: {producto.id_producto} / nombre: {producto.nombre}")
 
-
     def Eliminar_Productos(self):
         print("\n Eliminar Productos")
         while True:
-            id_Producto = input("Ingrese el ID del producto que desea eliminar")
+            id_Producto = input("Ingrese el ID del producto que desea eliminar: ")
             if id_Producto in self.productos:
                 eliminado = self.productos.pop(id_Producto)
+                self.guardar_productos()
                 print(f"El producto ha sido eliminado correctamente.")
                 reintentar = input("Presione ENTER para intentar de nuevo o 0 para regresar al menú de Productos")
                 if reintentar == "0":
+                    print("SALIENDO AL MENU PRODUCTOS...")
                     break
             else:
                 intentar = input("Producto no encontrado presione ENTER para intentar de nuevo o 0 para regresar al menú de categorias")
                 if intentar == "0":
+                    print("SALIENDO AL MENU PRODUCTOS...")
                     break
 
     def Buscar_Producto(self):
         while True:
-            id_buscar = input("Ingrese el codigo del producto que desea buscar")
+            id_buscar = input("Ingrese el ID del producto que desea buscar: ")
             if id_buscar not in self.productos:
                 print("Producto no encontrado")
-                reintentar = input("Presione ENTER para intentar de nuevo o 0 para regresar al menú de Categorias")
+                reintentar = input("Presione ENTER para intentar de nuevo o 0 para regresar al menú de Productos: ")
                 if reintentar == "0":
+                    print("SALIENDO AL MENU PRODUCTOS...")
                     break
             producto = self.productos.get(id_buscar)
             if producto:
-                print(f"Categoria encontrada: ID: {producto.id_producto} / Nombre: {producto.nombre}")
-                intento = input("\n Presione ENTER para buscar otro producto o ingrese 0 para regresar al menú de categorias. ")
+                print(f"Producto encontrado: ID: {producto.id_producto} / Nombre: {producto.nombre}")
+                intento = input("\n Presione ENTER para buscar otro producto o ingrese 0 para regresar al menú de productos: ")
                 if intento == "0":
+                    print("SALIENDO AL MENU PRODUCTOS...")
                     break
             else:
-                print("Producto no encontrada.")
+                print("Producto no encontrado.")
 
 class Proveedores:
     def __init__(self, nit, nombre, direccion, telefono, correo, empresa):
@@ -286,6 +353,25 @@ class Proveedores:
 class Datos_Proveedor:
     def __init__(self):
         self.proveedores = {}
+        self.cargar_proveedor()
+
+    def cargar_proveedor(self):
+        try:
+            with open("proveedor.txt", "r", encoding="utf-8") as archivo:
+                for linea in archivo:
+                    linea = linea.strip()
+                    if linea:
+                        nit, nombre, direccion, telefono, correo, empresa = linea.split(":")
+                        self.proveedores[nit] = Proveedores(nit, nombre, direccion, telefono, correo, empresa)
+
+            print("Proveedores importados desde proveedor.txt")
+        except FileNotFoundError:
+            print("No existe el archivo proveedor.txt, se creará uno nuevo al guardar.")
+
+    def guardar_proveedores(self):
+        with (open("proveedor.txt", "w", encoding="utf-8") as archivo):
+            for proveedor in self.proveedores.values():
+                archivo.write(f"{proveedor.nit}:{proveedor.nombre}:{proveedor.direccion}:{proveedor.telefono}:{proveedor.correo}:{proveedor.empresa}\n")
 
     def sub_menu(self):
         while True:
@@ -302,7 +388,6 @@ class Datos_Proveedor:
                 case 1:
                     self.Agregar_Proveedor()
                 case 2:
-                    print("Actualizar")
                     self.Actualizar_Proveedor()
                 case 3:
                     self.Eliminar_Proveedor()
@@ -315,7 +400,7 @@ class Datos_Proveedor:
                     print("REGRESANDO AL MENÚ PRINCIPAL....")
                     break
     def Agregar_Proveedor(self):
-            print("\n Agregar Proveedor")
+            print("\n **** Agregar Proveedor ****")
             Nit = input("NIT de la Empresa: ")
             nombre = input("Nombre a quien esta el NIT: ")
             direccion = input("Direccion de la empresa: ")
@@ -323,16 +408,18 @@ class Datos_Proveedor:
             correo = input("Correo a la empresa: ")
             empresa = input("Nombre de la Empresa: ")
             self.proveedores[Nit] = Proveedores(Nit, nombre, direccion, telefono, correo, empresa)
+            self.guardar_proveedores()
             print("Proveedor Agregado Correctamente.")
 
     def Actualizar_Proveedor(self):
-        print("\n Actualizar Proovedor")
+        print("\n **** Actualizar Proovedor ****")
         while True:
-            nit_Proveedor = input("Ingrese el NIT del proveedor que va modificar")
+            nit_Proveedor = input("Ingrese el NIT del proveedor que va modificar: ")
             if nit_Proveedor not in self.proveedores:
                 print("Proveedor no encontrado")
                 reintentar = input("Presione ENTER para intentar de nuevo o 0 para regresar al menú de Proveedor")
                 if reintentar == "0":
+                    print("SALIENDO AL MENU PROVEEDOR...")
                     break
             print("1.- Cambiar Nit del Proveedor")
             print("2.- Cambiar Nombre del Proveedor")
@@ -345,16 +432,19 @@ class Datos_Proveedor:
                 nuevo_NIT = input("Ingrese el nuevo NIT: ")
                 if nuevo_NIT in self.proveedores:
                     print("El NIT ya existe en otro proveedor intente de nuevo")
-                    intento = input("Presione ENTER para intentar de nuevo o 6 para regresar al menú de Proveedores ")
+                    intento = input("Presione ENTER para intentar de nuevo o 6 para regresar al menú de Proveedores: ")
                     if intento == "0":
+                        print("SALIENDO AL MENU PRODUCTOS...")
                         break
                 else:
                     NIT = self.proveedores.pop(nit_Proveedor)
                     NIT.nit = nuevo_NIT
                     self.proveedores[nuevo_NIT] = NIT
+                    self.guardar_proveedores()
                     print("NIT Proveedor actualizado Correctamente.")
-                    intento = input("Presione ENTER para actualizar otro producto o 6 para regresar al menú de Productos ")
+                    intento = input("Presione ENTER para actualizar otro producto o 6 para regresar al menú de Proveedores: ")
                     if intento == "6":
+                        print("SALIENDO AL MENU PRODUCTOS...")
                         break
             elif actualizar == 2:
                 nombre_nuevo = input("Ingrese el nuevo nombre del propietario del NIT: ").lower()
