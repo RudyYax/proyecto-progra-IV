@@ -69,7 +69,7 @@ class Datos_Categoria:
                 self.categorias[Id_Categoria] = Categoria(Id_Categoria, Nombre_Categoria)
                 self.guardar_categorias()
                 print("Categoría registrada correctamente.")
-                intento = input("Presione ENTER para agregar otra categoria o ingrese 0 para regresar al menú de categorias. ")
+                intento = input("Presione ENTER para agregar otra categoria o ingrese 0 para regresar al menú de categorias: ")
                 if intento == "0":
                     print("SALIENDO AL MENU CATEGORIAS...")
                     break
@@ -105,7 +105,7 @@ class Datos_Categoria:
                 eliminado = self.categorias.pop(id_Categoria)
                 self.guardar_categorias()
                 print(f"La categoria ha sido eliminado correctamente.")
-                reintentar = input("Presione ENTER para intentar de nuevo o 0 para regresar al menú de Categorias: ")
+                reintentar = input("Presione ENTER para Eliminar otra categoria o 0 para regresar al menú de Categorias: ")
                 if reintentar == "0":
                     print("SALIENDO AL MENU CATEGORIAS...")
                     break
@@ -126,6 +126,7 @@ class Datos_Categoria:
             return self.quick_sort(menores) + [lista[0]] + iguales + self.quick_sort(mayores)
 
     def Mostrar_Categorias(self):
+        print("\n **** Mostrar Categoria ****")
         if not self.categorias:
             print(f"No hay Categorias Registradas.")
             return
@@ -137,6 +138,7 @@ class Datos_Categoria:
 
 
     def Buscar_Categoria(self):
+        print("\n **** Buscar Categoria ****")
         while True:
             id_buscar = input("Ingrese el codigo de la categoria que desea buscar: ")
             if id_buscar not in self.categorias:
@@ -147,16 +149,14 @@ class Datos_Categoria:
                     break
             categoria = self.categorias.get(id_buscar)
             if categoria:
-                print(f"Categoria encontrada: ID: {categoria.id_categoria} / Nombre: {categoria.nombre}")
-                intento = input("\n Presione ENTER para agregar otra categoria o ingrese 0 para regresar al menú de categorias: ")
+                print(f"Categoria encontrada: ")
+                print(f"ID: {categoria.id_categoria} / Nombre: {categoria.nombre}")
+                intento = input("\n Presione ENTER para buscar otra categoria o ingrese 0 para regresar al menú de categorias: ")
                 if intento == "0":
                     print("SALIENDO AL MENU CATEGORIAS...")
                     break
             else:
                 print("Categoria no encontrada.")
-
-
-
 
 class Producto:
     def __init__(self, id_producto, nombre, precio, id_categoria, stock):
@@ -434,7 +434,7 @@ class Datos_Proveedor:
                     print("El NIT ya existe en otro proveedor intente de nuevo")
                     intento = input("Presione ENTER para intentar de nuevo o 6 para regresar al menú de Proveedores: ")
                     if intento == "0":
-                        print("SALIENDO AL MENU PRODUCTOS...")
+                        print("SALIENDO AL MENU PROVEEDOR...")
                         break
                 else:
                     NIT = self.proveedores.pop(nit_Proveedor)
@@ -442,37 +442,44 @@ class Datos_Proveedor:
                     self.proveedores[nuevo_NIT] = NIT
                     self.guardar_proveedores()
                     print("NIT Proveedor actualizado Correctamente.")
-                    intento = input("Presione ENTER para actualizar otro producto o 6 para regresar al menú de Proveedores: ")
+                    intento = input("Presione ENTER para actualizar otro Proveedor o 6 para regresar al menú de Proveedores: ")
                     if intento == "6":
-                        print("SALIENDO AL MENU PRODUCTOS...")
+                        print("SALIENDO AL MENU PROVEEDOR...")
                         break
             elif actualizar == 2:
                 nombre_nuevo = input("Ingrese el nuevo nombre del propietario del NIT: ").lower()
                 self.proveedores[nit_Proveedor].nombre = nombre_nuevo
+                self.guardar_proveedores()
                 print("Nombre del Propietario actualizado correctamente.")
-                intento = input("Presione ENTER para actualizar otro Proveedor o 6 para regresar al menú de Proveedores ")
+                intento = input("Presione ENTER para actualizar otro Proveedor o 6 para regresar al menú de Proveedores: ")
                 if intento == "6":
+                    print("SALIENDO AL MENU PROVEEDOR...")
                     break
             elif actualizar == 3:
                 direccion_nuevo = input("Ingrese la nueva direccion del proveedor: ").lower()
                 self.proveedores[nit_Proveedor].direccion = direccion_nuevo
-                print("Direccion del proveedor actualizado Correctamente.")
-                intento = input("Presione ENTER para actualizar otro producto o 6 para regresar al menú de Proveedores ")
+                self.guardar_proveedores()
+                print("Direccion del Proveedor actualizado Correctamente.")
+                intento = input("Presione ENTER para actualizar otro Proveedor o 6 para regresar al menú de Proveedores: ")
                 if intento == "6":
+                    print("SALIENDO AL MENU PROVEEDOR...")
                     break
             elif actualizar == 4:
-                telefono_nuevo = input("Ingrese el nuevo telefono del proveedor: ").lower()
+                telefono_nuevo = input("Ingrese el nuevo telefono del Proveedor: ").lower()
                 self.proveedores[nit_Proveedor].telefono = telefono_nuevo
-                print("Telefono del proveedor actualizado Correctamente.")
-                intento = input("Presione ENTER para actualizar otro producto o 6 para regresar al menú de Proveedores ")
+                self.guardar_proveedores()
+                print("Telefono del Proveedor actualizado Correctamente.")
+                intento = input("Presione ENTER para actualizar otro Proveedor o 6 para regresar al menú de Proveedores: ")
                 if intento == "6":
                     break
             elif actualizar == 5:
                 correo_nuevo = input("Ingrese el nuevo correo del proveedor: ").lower()
                 self.proveedores[nit_Proveedor].correo = correo_nuevo
+                self.guardar_proveedores()
                 print("Correo del proveedor actualizado Correctamente.")
-                intento = input("Presione ENTER para actualizar otro producto o 6 para regresar al menú de Proveedores ")
+                intento = input("Presione ENTER para actualizar otro Proveedor o 6 para regresar al menú de Proveedores: ")
                 if intento == "6":
+                    print("SALIENDO AL MENU PROVEEDOR...")
                     break
             elif actualizar == 6:
                 print("Regresando al menú de Proveedor...")
@@ -490,7 +497,7 @@ class Datos_Proveedor:
 
     def Mostrar_Proveedor(self):
         if not self.proveedores:
-            print(f"No hay Proveedores Registrados")
+            print(f"No hay Proveedores Registrados.")
             return
         lista_Proveedores = list(self.proveedores.values())
         ordenados = self.quick_sort_Proveedores(lista_Proveedores)

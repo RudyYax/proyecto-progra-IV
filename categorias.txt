@@ -1,1 +1,3 @@
 bbt:black bulls
+tru:truper
+Te:tecun
