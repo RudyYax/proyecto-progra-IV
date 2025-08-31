@@ -19,7 +19,6 @@ class Datos_Categoria:
             print("Categorias importadas desde catetorias.txt")
         except FileNotFoundError:
             print("No existe el archivo categorias.txt, se creará uno nuevo al guardar.")
-
     def guardar_categorias(self):
         with open("categorias.txt", "w", encoding="utf-8") as archivo:
             for categoria in self.categorias.values():
@@ -28,7 +27,7 @@ class Datos_Categoria:
     def sub_menu(self):
         while True:
             print("\n --Bienvenido--")
-            print(" ****Categorias****")
+            print(" **** CATEGORIAS ****")
             print("1.- Registrar Nueva Categoria.")
             print("2.- Actualizar Categoria.")
             print("3.- Eliminar Categoria.")
@@ -74,7 +73,6 @@ class Datos_Categoria:
                     break
             except ValueError:
                 print("No se puede agregar una categoría")
-
     def Actualizar_Categoria(self):
         print("\n **** Actualizar Categoria ****")
         while True:
@@ -371,8 +369,8 @@ class Datos_Proveedor:
 
     def sub_menu(self):
         while True:
-            print("\n Proveedores ")
-            print("Bienvenido")
+            print("\n --Bienvenido--")
+            print(" **** PROVEEDORES ****")
             print("1.- Registrar Nuevo Proveedor.")
             print("2.- Actualizar Proveedor.")
             print("3.- Eliminar Proveedor.")
@@ -406,7 +404,6 @@ class Datos_Proveedor:
             self.proveedores[Nit] = Proveedores(Nit, nombre, direccion, telefono, correo, empresa)
             self.guardar_proveedores()
             print("Proveedor Agregado Correctamente.")
-
     def Actualizar_Proveedor(self):
         print("\n **** Actualizar Proovedor ****")
         while True:
@@ -417,6 +414,7 @@ class Datos_Proveedor:
                 if reintentar == "0":
                     print("SALIENDO AL MENU PROVEEDOR...")
                     break
+            print("\n **** Actualizar Proovedor ****")
             print("1.- Cambiar Nit del Proveedor")
             print("2.- Cambiar Nombre del Proveedor")
             print("3.- Cambiar Direccion del Proveedor")
@@ -443,7 +441,7 @@ class Datos_Proveedor:
                         print("SALIENDO AL MENU PROVEEDOR...")
                         break
             elif actualizar == 2:
-                nombre_nuevo = input("Ingrese el nuevo nombre del propietario del NIT: ").lower()
+                nombre_nuevo = input("Ingrese el nuevo nombre del propietario: ").lower()
                 self.proveedores[nit_Proveedor].nombre = nombre_nuevo
                 self.guardar_proveedores()
                 print("Nombre del Propietario actualizado correctamente.")
@@ -480,7 +478,6 @@ class Datos_Proveedor:
             elif actualizar == 6:
                 print("Regresando al menú de Proveedor...")
                 break
-
     def quick_sort_Proveedores(self, lista):
         if len(lista) <= 1:
             return lista
@@ -490,8 +487,8 @@ class Datos_Proveedor:
             iguales = [x for x in lista[1:] if x.nombre.lower() == pivote]
             menores = [x for x in lista[1:] if x.nombre.lower() < pivote]
             return self.quick_sort_Proveedores(menores) + [lista[0]] + iguales + self.quick_sort_Proveedores(mayores)
-
     def Mostrar_Proveedor(self):
+        print("\n **** Mostrar Proveedor **** ")
         if not self.proveedores:
             print(f"No hay Proveedores Registrados.")
             return
@@ -501,30 +498,33 @@ class Datos_Proveedor:
         for i, proveedores in enumerate(ordenados, start=1):
             print(f"Empresa: {proveedores.empresa}")
             print(f"NIT: {proveedores.nit}")
-            print(f"Nombre: {proveedores.nombre}")
+            print(f"Nombre Propietario: {proveedores.nombre}")
             print(f"Direccion: {proveedores.direccion}")
-
+            reintentar = input("Presione ENTER para regresar al menú de Proveedores")
+            if reintentar == "6":
+                break
     def Eliminar_Proveedor(self):
-        print("\n Eliminar Proveedor")
+        print("\n **** Eliminar Proveedor ****")
         while True:
-            Nit_Proveedor = input("Ingrese el NIT del proovedor que desea eliminar")
+            Nit_Proveedor = input("Ingrese el NIT del proovedor que desea eliminar: ")
             if Nit_Proveedor in self.proveedores:
                 eliminado = self.proveedores.pop(Nit_Proveedor)
-                print(f"El Proveedor ha sido eliminado correctamente.")
-                reintentar = input("Presione ENTER para intentar de nuevo o 6 para regresar al menú de Proveedores")
+                self.guardar_proveedores()
+                print(f"El Proveedor {Nit_Proveedor} ha sido eliminado correctamente.")
+                reintentar = input("Presione ENTER para intentar de nuevo o 6 para regresar al menú de Proveedores: ")
                 if reintentar == "6":
                     break
             else:
-                intentar = input("Proveedor no encontrado presione ENTER para intentar de nuevo o 6 para regresar al menú de Proveedores")
+                intentar = input("Proveedor no encontrado presione ENTER para intentar de nuevo o 6 para regresar al menú de Proveedores: ")
                 if intentar == "6":
                     break
-
     def Buscar_Proveedor(self):
+        print("\n **** Buscar Proveedor ****")
         while True:
-            Nit_buscar = input("Ingrese el NIT del proveedor que desea buscar")
+            Nit_buscar = input("Ingrese el NIT del proveedor que desea buscar: ")
             if Nit_buscar not in self.proveedores:
                 print("Proveedor no encontrado")
-                reintentar = input("Presione ENTER para intentar de nuevo o 6 para regresar al menú de Proveedores")
+                reintentar = input("Presione ENTER para intentar de nuevo o 6 para regresar al menú de Proveedores: ")
                 if reintentar == "6":
                     break
             proveedor = self.proveedores.get(Nit_buscar)
@@ -534,7 +534,7 @@ class Datos_Proveedor:
                 print(f"NIT: {proveedor.nit}")
                 print(f"Nombre: {proveedor.nombre}")
                 print(f"Direccion: {proveedor.direccion}")
-                intento = input("\n Presione ENTER para buscar otro proveedor o ingrese 6 para regresar al menú de Proveedores. ")
+                intento = input("\n Presione ENTER para buscar otro proveedor o ingrese 6 para regresar al menú de Proveedores: ")
                 if intento == "6":
                     break
             else:
@@ -548,15 +548,31 @@ class Empleado:
         self.telefono = telefono
         self.correo = correo
         self.puesto = puesto
-
 class Datos_Empleados:
     def __init__(self):
         self.empleados = {}
+        self.cargar_empleado()
+    def cargar_empleado(self):
+        try:
+            with open("empleados.txt", "r", encoding="utf-8") as archivo:
+                for linea in archivo:
+                    linea = linea.strip()
+                    if linea:
+                        id_Empleado, nombre, direccion, telefono, correo, puesto = linea.split(":")
+                        self.empleados[id_Empleado] = Empleado(id_Empleado, nombre, direccion, telefono, correo, puesto)
+            print("Empleados importados desde empleados.txt")
+        except FileNotFoundError:
+            print("No existe el archivo empleados.txt, se creará uno nuevo al guardar.")
 
+    def guardar_empleados(self):
+        with (open("empleados.txt", "w", encoding="utf-8") as archivo):
+            for empleados in self.empleados.values():
+                archivo.write(
+                    f"{empleados.id_Empleado}: {empleados.nombre}: {empleados.direccion}: {empleados.telefono}: {empleados.correo}: {empleados.puesto}\n")
     def sub_menu(self):
         while True:
-            print("\n Empleados ")
-            print("Bienvenido")
+            print("\n --Bienvenido--")
+            print(" **** EMPLEADOS ****")
             print("1.- Registrar Nuevo Empleado.")
             print("2.- Actualizar Empleado.")
             print("3.- Eliminar Empleado.")
@@ -568,7 +584,6 @@ class Datos_Empleados:
                 case 1:
                     self.Agregar_Empleado()
                 case 2:
-                    print("Actualizar")
                     self.Actualizar_Empleado()
                 case 3:
                     self.Eliminar_Empleado()
@@ -580,9 +595,8 @@ class Datos_Empleados:
                     print("Salir...")
                     print("REGRESANDO AL MENÚ PRINCIPAL....")
                     break
-
     def Agregar_Empleado(self):
-        print("\n Agregar un Nuevo Empleado")
+        print("\n **** Agregar un Nuevo Empleado ****")
         id_empleado = input("Ingrese cual sera el ID del Empleado: ")
         nombre = input("Nombre del Nuevo Empleado: ")
         direccion = input("Direccion del Nuevo Empleado: ")
