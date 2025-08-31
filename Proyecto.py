@@ -7,7 +7,6 @@ class Datos_Categoria:
     def __init__(self):
         self.categorias = {}
         self.cargar_categorias()
-
     def cargar_categorias(self):
         try:
             with open("categorias.txt", "r", encoding="utf-8") as archivo:
@@ -96,7 +95,6 @@ class Datos_Categoria:
             if intento == "0":
                 print("SALIENDO AL MENU CATEGORIAS...")
                 break
-
     def Eliminar_Categoria(self):
         print("\n **** Eliminar Categoria ****")
         while True:
@@ -114,7 +112,6 @@ class Datos_Categoria:
                 if intentar == "0":
                     print("SALIENDO AL MENU CATEGORIAS...")
                     break
-
     def quick_sort(self, lista):
         if len(lista) <= 1:
             return lista
@@ -124,7 +121,6 @@ class Datos_Categoria:
             iguales = [x for x in lista[1:] if x.nombre.lower() == pivote]
             menores = [x for x in lista[1:] if x.nombre.lower() < pivote]
             return self.quick_sort(menores) + [lista[0]] + iguales + self.quick_sort(mayores)
-
     def Mostrar_Categorias(self):
         print("\n **** Mostrar Categoria ****")
         if not self.categorias:
@@ -135,8 +131,6 @@ class Datos_Categoria:
         print("Categorias ordenados por nombre: ")
         for i, categoria in enumerate(ordenados, start=1):
             print(f"{i}- ID: {categoria.id_categoria} - nombre {categoria.nombre}")
-
-
     def Buscar_Categoria(self):
         print("\n **** Buscar Categoria ****")
         while True:
@@ -293,17 +287,20 @@ class Datos_Productos:
             iguales = [x for x in lista[1:] if x.nombre.lower() == pivote]
             menores = [x for x in lista[1:] if x.nombre.lower() < pivote]
             return self.quick_sort_Productos(menores) + [lista[0]] + iguales + self.quick_sort_Productos(mayores)
-
     def Mostrar_Productos(self):
-        if not self.productos:
-            print(f"No hay Productos Registrados")
-            return
-        lista_Productos = list(self.productos.values())
-        ordenados = self.quick_sort_Productos(lista_Productos)
-        print("Productos ordenados por nombre: ")
-        for i, producto in enumerate(ordenados, start=1):
-            print(f" ID: {producto.id_producto} / nombre: {producto.nombre}")
-
+        while True:
+            if not self.productos:
+                print(f"No hay Productos Registrados")
+                reintentar = input("Presione ENTER para intentar de nuevo o 0 para regresar al menú de Productos: ")
+                if reintentar == "0":
+                    print("SALIENDO AL MENU PRODUCTOS...")
+                    break
+                return
+            lista_Productos = list(self.productos.values())
+            ordenados = self.quick_sort_Productos(lista_Productos)
+            print("Productos ordenados por nombre: ")
+            for i, producto in enumerate(ordenados, start=1):
+                print(f" ID: {producto.id_producto} / nombre: {producto.nombre}")
     def Eliminar_Productos(self):
         print("\n Eliminar Productos")
         while True:
@@ -312,8 +309,8 @@ class Datos_Productos:
                 eliminado = self.productos.pop(id_Producto)
                 self.guardar_productos()
                 print(f"El producto ha sido eliminado correctamente.")
-                reintentar = input("Presione ENTER para intentar de nuevo o 0 para regresar al menú de Productos")
-                if reintentar == "0":
+                reintentar = input("Presione ENTER para intentar de nuevo o 3 para regresar al menú de Productos")
+                if reintentar == "3":
                     print("SALIENDO AL MENU PRODUCTOS...")
                     break
             else:
@@ -321,7 +318,6 @@ class Datos_Productos:
                 if intentar == "0":
                     print("SALIENDO AL MENU PRODUCTOS...")
                     break
-
     def Buscar_Producto(self):
         while True:
             id_buscar = input("Ingrese el ID del producto que desea buscar: ")
@@ -334,8 +330,8 @@ class Datos_Productos:
             producto = self.productos.get(id_buscar)
             if producto:
                 print(f"Producto encontrado: ID: {producto.id_producto} / Nombre: {producto.nombre}")
-                intento = input("\n Presione ENTER para buscar otro producto o ingrese 0 para regresar al menú de productos: ")
-                if intento == "0":
+                intento = input("\n Presione ENTER para buscar otro producto o ingrese 3 para regresar al menú de Productos: ")
+                if intento == "3":
                     print("SALIENDO AL MENU PRODUCTOS...")
                     break
             else:
