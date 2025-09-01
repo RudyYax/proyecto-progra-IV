@@ -896,6 +896,7 @@ class Datos_Cliente:
                 print("Cliente no encontrado")
                 reintentar = input("Presione ENTER para intentar de nuevo o 5 para regresar al menú de Empleados")
                 if reintentar == "5":
+                    print("GR")
                     break
             cliente = self.clientes.get(nit_buscar)
             if cliente:
@@ -907,6 +908,7 @@ class Datos_Cliente:
                 print(f"Correo Electronico: {cliente.correo}")
                 intento = input("\n Presione ENTER para buscar otro Cliente o ingrese 5 para regresar al menú de Clientes. ")
                 if intento == "5":
+
                     break
             else:
                 print("Cliente no encontrado.")
