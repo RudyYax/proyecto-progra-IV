@@ -1,3 +1,4 @@
 bbt:black bulls
 tru:truper
 Te:tecun
+most:mano de obra

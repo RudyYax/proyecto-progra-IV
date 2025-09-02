@@ -2,3 +2,4 @@ tru-002:compresor:600.0:tru:0
 tru-003:bomba:1100.0:tru:0
 tru-004:manguera:40.0:tru:0
 nnt-001:hidro:6000.0:bbt:0
+prod-001:cambio de aceite:180.0:most:0

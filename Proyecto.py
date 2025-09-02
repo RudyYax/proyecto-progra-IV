@@ -156,7 +156,7 @@ class Datos_Categoria:
                 print("Categoria no encontrada.")
 
 class Producto:
-    def __init__(self, id_producto, nombre, precio, id_categoria, stock):
+    def __init__(self, id_producto, nombre, precio, id_categoria, stock=0):
         self.id_producto = id_producto
         self.nombre = nombre
         self.precio = precio
@@ -212,7 +212,6 @@ class Datos_Productos:
                     print("Salir...")
                     print("REGRESANDO AL MENÚ PRINCIPAL....")
                     break
-
     def Agregar_Producto(self):
         print("\n **** Crear codigo del Producto ****")
         while True:
@@ -229,12 +228,13 @@ class Datos_Productos:
                 nombre = input("Nombre producto: ")
                 precio = float(input("Precio estimado: Q"))
                 idc = input("IDCategoria del producto: ")
+                stock = 0
                 if idc not in datos_categoria.categorias:
                     print("Error: La categoría no existe. Agrega primero la categoría.")
                     print("SALIENDO AL MENU PRODUCTOS....")
                     break
                 else:
-                    self.productos[idp] = Producto(idp, nombre, precio, idc, stock=0)
+                    self.productos[idp] = Producto(idp, nombre, precio, idc, stock)
                     self.guardar_productos()
                     print("Producto agregado Correctamente.")
                 reintentar = input("Presione ENTER para agregar otro producto o 0 para regresar al menú de Productos: ")
@@ -781,7 +781,6 @@ class Datos_Cliente:
         with open("clientes.txt", "w", encoding="utf-8") as archivo:
             for clientes in self.clientes.values():
                 archivo.write(f"{clientes.nit_cliente} : {clientes.nombre}: {clientes.direccion}:{clientes.telefono} : {clientes.correo}\n")
-
     def sub_menu(self):
         while True:
             print("\n --Bienvenido--")
@@ -896,7 +895,7 @@ class Datos_Cliente:
                 print("Cliente no encontrado")
                 reintentar = input("Presione ENTER para intentar de nuevo o 5 para regresar al menú de Empleados")
                 if reintentar == "5":
-                    print("GR")
+                    print("SALIENDO AL MENU CLIENTES...")
                     break
             cliente = self.clientes.get(nit_buscar)
             if cliente:
@@ -908,10 +907,94 @@ class Datos_Cliente:
                 print(f"Correo Electronico: {cliente.correo}")
                 intento = input("\n Presione ENTER para buscar otro Cliente o ingrese 5 para regresar al menú de Clientes. ")
                 if intento == "5":
-
+                    print("SALIENDO AL MENU CLIENTES...")
                     break
             else:
                 print("Cliente no encontrado.")
+
+class Compras:
+    def __init__(self, id_compra, id_producto, cantidad, sub_total,total):
+        self.id_compra = id_compra
+        self.id_producto = id_producto
+        self.cantidad = cantidad
+        self.sub_total = sub_total
+        self.total = total
+
+class Datos_Compra:
+    def __init__(self, datos_productos):
+        self.compras = {}
+        self.datos_productos = datos_productos
+        self.cargar_Compras()
+
+    def cargar_Compras(self):
+        try:
+            with open("compras.txt", "r", encoding="utf-8") as archivo:
+                for linea in archivo:
+                    linea = linea.strip()
+                    if linea:
+                        id_compra, id_producto, cantidad, sub_total, total = linea.split(":")
+                        self.compras[id_compra] = Compras(id_compra, id_producto, cantidad, sub_total, total)
+            print("Compras importadas desde compras.txt")
+        except FileNotFoundError:
+            print("No existe el archivo compras.txt, se creará uno nuevo al guardar.")
+    def guardar_compras(self):
+        with open("compras.txt", "w", encoding="utf-8") as archivo:
+            for compra in self.compras.values():
+                archivo.write(f"{compra.id_compra} : {compra.id_producto} : {compra.cantidad} : {compra.sub_total} : {compra.total}\n")
+    def sub_menu(self):
+        while True:
+            print("\n --Bienvenido--")
+            print(" **** COMPRAS ****")
+            print("1.- Registrar una Nueva Compra.")
+            print("2.- Mostrar Clientes.")
+            print("3.- Buscar Clientes.")
+            print("4.- Salir.")
+            opcion = int(input("Seleccione que opcion desea: "))
+            match opcion:
+                case 1:
+                    self.Agregar_Compra()
+
+                case 4:
+                    print("Salir...")
+                    print("REGRESANDO AL MENÚ PRINCIPAL....")
+
+                    break
+
+    def Agregar_Compra(self):
+        print("\n **** Registrar nueva compra ****")
+        while True:
+            id_Compra = input("ID de la compra: ")
+            if id_Compra in self.compras:
+                print("Ya está registrada esta compra.")
+                reintentar = input("ENTER para intentar de nuevo o 0 para salir: ")
+                if reintentar == "0":
+                    return
+                else:
+                    continue
+
+            id_producto = input("Ingrese el ID del producto: ")
+            if id_producto not in self.datos_productos.productos:
+                print("El producto no existe. Agrega primero el producto.")
+                return
+                cantidad2 = int(input("Cantidad de productos: "))
+            self.compras[id_Compra] = Compras(id_Compra, id_producto, cantidad2)
+            producto = self.datos_productos.productos[id_producto]
+            sub_total = producto.precio * cantidad2
+            total = sub_total
+            self.compras[id_Compra] = Compras(id_Compra, id_producto, cantidad2, sub_total, total)
+            stock_anterior = producto.stock
+            producto.stock += cantidad2
+
+            self.datos_productos.guardar_productos()
+            print(f"Compra registrada. Stock: {stock_anterior} -> {producto.stock}")
+
+            reintentar = input("ENTER para agregar otra compra o 0 para salir: ")
+            if reintentar == "0":
+                return
+            else:
+                continue
+
+
 
 
 
@@ -923,12 +1006,14 @@ class Menu:
                 print("3.- Agregar Cliente")
                 print("4.- Agregar Proveedor")
                 print("5.- Agregar Empleado")
-                print("6.- salir")
-
+                print("6.- Agregar Compra")
+                print("7.- salir")
 
 datos_categoria = Datos_Categoria()
 
 while True:
+    datos_productos = Datos_Productos()
+    datos_compras = Datos_Compra(datos_productos)
     menu = Menu()
     try:
         opcion = int(input("Ingrese la opcion que desea: "))
@@ -971,5 +1056,9 @@ while True:
                     validar = input(f"\n Opcion no valida presione ENTER para intentar de nuevo o 6 para Salir del programa:  ")
 
             case 6:
+
+                    Datos_Compra().sub_menu()
+
+            case 7:
                 print("Saliendo...")
                 break
